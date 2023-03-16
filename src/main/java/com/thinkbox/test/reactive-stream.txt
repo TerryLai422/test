@@ -1,0 +1,16 @@
+from("reactive-streams:my-input")
+    .to("jdbc:myDataSource?useHeadersAsParameters=true&outputType=SelectList")
+    .process(exchange -> {
+        List<Map<String, Object>> rows = exchange.getMessage().getBody(List.class);
+        List<Map<String, Object>> updatedRows = new ArrayList<>();
+        for (Map<String, Object> row : rows) {
+            // Modify the row as needed
+            row.put("column1", "new value");
+            updatedRows.add(row);
+        }
+        exchange.getMessage().setBody(updatedRows);
+    })
+    .to("jdbc:myDataSource?useHeadersAsParameters=true&outputType=UpdateCount");
+
+from("direct:my-output")
+    .to("reactive-streams:my-input");

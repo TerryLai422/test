@@ -1,6 +1,5 @@
-package com.thinkbox.test;
+package com.thinkbox.test.spring;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 

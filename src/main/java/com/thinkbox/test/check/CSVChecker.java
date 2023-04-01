@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.check;
 
 public class CSVChecker {
     public static boolean isCSV(String str) {

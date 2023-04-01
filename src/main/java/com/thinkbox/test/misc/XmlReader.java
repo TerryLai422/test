@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.misc;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
@@ -40,7 +40,7 @@ public class XmlReader {
                 .mappingProvider(new JsonOrgMappingProvider())
                 .build();
         String json = conf.jsonProvider().toJson(doc);
-System.out.println("Json:" + json);
+        System.out.println("Json:" + json);
         return new JSONObject(json);
     }
 }

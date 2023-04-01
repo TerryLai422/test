@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.spring;
 
 import java.util.Map;
 

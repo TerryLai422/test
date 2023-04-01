@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.spring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

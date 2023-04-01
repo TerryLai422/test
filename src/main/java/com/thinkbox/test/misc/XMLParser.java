@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.misc;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;

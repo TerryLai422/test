@@ -1,7 +1,8 @@
-package com.thinkbox.test;
+package com.thinkbox.test.spring;
 
 import javax.annotation.PostConstruct;
 
+import com.thinkbox.test.spring.MyInterface;
 import org.springframework.stereotype.Component;
 
 @Component("YourComponent")

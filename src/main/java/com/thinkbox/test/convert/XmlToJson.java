@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.convert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.IOException;
 
-public class XmlToJsonConverter {
+public class XmlToJson {
 
     public static void main(String[] args) {
         String xml = "<example><name>John</name><age>30</age></example>";

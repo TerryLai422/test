@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.misc;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.check;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

@@ -1,4 +1,4 @@
-package com.thinkbox.test;
+package com.thinkbox.test.check;
 
 public class CSVValidator {
     public static boolean isValidCSV(String csv) {

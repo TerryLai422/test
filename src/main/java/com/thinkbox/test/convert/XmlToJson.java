@@ -8,17 +8,20 @@ import java.io.IOException;
 
 public class XmlToJson {
     public static void main(String[] args) {
-        String xml = "<example><name>John</name><age>30</age></example>";
+        String content = "<example><name>John</name><age>30</age></example>";
+        XmlToJson xmlToJson = new XmlToJson();
+        System.out.println(xmlToJson.convert(content));
+    }
+    public String convert(String content) {
         try {
-            // Create an XmlMapper to read XML data
             XmlMapper xmlMapper = new XmlMapper();
-            Object json = xmlMapper.readValue(xml, Object.class);
-            // Create an ObjectMapper to write JSON data
+            Object json = xmlMapper.readValue(content, Object.class);
             ObjectMapper jsonMapper = new ObjectMapper();
             jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
-            System.out.println(jsonMapper.writeValueAsString(json));
+            return jsonMapper.writeValueAsString(json);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

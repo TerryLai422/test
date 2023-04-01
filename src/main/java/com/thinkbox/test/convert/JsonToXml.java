@@ -8,17 +8,20 @@ import java.io.IOException;
 
 public class JsonToXml {
     public static void main(String[] args) {
-        String json = "{\"example\":{\"name\":\"John\",\"age\":30}}";
+        String content = "{\"example\":{\"name\":\"John\",\"age\":30}}";
+        JsonToXml jsonToXml = new JsonToXml();
+        System.out.println(jsonToXml.convert(content));
+    }
+    public String convert(String content) {
         try {
             ObjectMapper jsonMapper = new ObjectMapper();
-            Object jsonObject = jsonMapper.readValue(json, Object.class);
-            System.out.println("jsonObject:" + jsonObject);
-
+            Object jsonObject = jsonMapper.readValue(content, Object.class);
             XmlMapper xmlMapper = new XmlMapper();
             xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-            System.out.println(xmlMapper.writeValueAsString(jsonObject));
+            return xmlMapper.writeValueAsString(jsonObject);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

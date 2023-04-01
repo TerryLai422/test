@@ -10,21 +10,25 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 public class CsvToJson {
     public static void main(String[] args) {
-        String csvData = "1\tJohn\tDoe\n2\tJane\tDoe\n3\tBob\tSmith";
+        String content = "1\tJohn\tDoe\n2\tJane\tDoe\n3\tBob\tSmith";
+        CsvToJson csvToJson = new CsvToJson();
+        System.out.println(csvToJson.convert(content));
+    }
+    public String convert(String content) {
         try {
-            CsvSchema csvSchema = buildCsvSchema(csvData, true, '\t', "\n", "COL");
+            CsvSchema csvSchema = buildCsvSchema(content, true, '\t', "\n", "COL");
             CsvMapper csvMapper = new CsvMapper();
-            MappingIterator<Object> mappingIterator = csvMapper.reader().forType(Object.class).with(csvSchema).readValues(csvData);
+            MappingIterator<Object> mappingIterator = csvMapper.reader().forType(Object.class).with(csvSchema).readValues(content);
             List<Object> list = null;
             list = mappingIterator.readAll();
             ObjectMapper mapper = new ObjectMapper();
-            System.out.println("OUTPUT:" + mapper.writeValueAsString(list));
+            return mapper.writeValueAsString(list);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+        return null;
     }
-
-    public static CsvSchema buildCsvSchema(String csvData, boolean hasHeader, char columnSeparator, String lineSeparator, String columnPrefix) {
+    public CsvSchema buildCsvSchema(String csvData, boolean hasHeader, char columnSeparator, String lineSeparator, String columnPrefix) {
         CsvSchema.Builder builder = CsvSchema.builder();
         if (!hasHeader) {
             String firstLine = csvData.substring(0, csvData.indexOf(lineSeparator));

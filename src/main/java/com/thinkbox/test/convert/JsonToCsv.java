@@ -10,20 +10,23 @@ import java.util.Map;
 
 public class JsonToCsv {
     public static void main(String[] args) {
-        String json = "[{\"num\":\"2\",\"firstName\":\"Mary\",\"nickName\":\"Doe\"},{\"num\":\"3\",\"firstName\":\"John\",\"nickName\":\"Smith\"}]";
+        String content = "[{\"num\":\"2\",\"firstName\":\"Mary\",\"nickName\":\"Doe\"},{\"num\":\"3\",\"firstName\":\"John\",\"nickName\":\"Smith\"}]";
+        JsonToCsv jsonToCsv = new JsonToCsv();
+        System.out.println(jsonToCsv.convert(content));
+    }
+    public String convert(String content) {
         try {
             ObjectMapper jsonMapper = new ObjectMapper();
             List<Map> object = null;
-            object = jsonMapper.readValue(json, List.class);
+            object = jsonMapper.readValue(content, List.class);
             CsvMapper mapper = new CsvMapper();
-            System.out.println(mapper.writer(buildCsvSchema( object, true, ',', "\n")).writeValueAsString(object));
+            System.out.println(mapper.writer(buildCsvSchema(object, true, ',', "\n")).writeValueAsString(object));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-
+        return null;
     }
-
-    public static CsvSchema buildCsvSchema(List<Map> object, boolean hasHeader, char columnSeparator, String lineSeparator) {
+    public CsvSchema buildCsvSchema(List<Map> object, boolean hasHeader, char columnSeparator, String lineSeparator) {
         CsvSchema.Builder schemaBuilder = CsvSchema.builder();
         Map<?, ?> first = object.get(0);
         for (Object key : first.keySet()) {

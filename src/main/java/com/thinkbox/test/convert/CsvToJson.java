@@ -18,9 +18,10 @@ public class CsvToJson {
         try {
             CsvSchema csvSchema = buildCsvSchema(content, true, '\t', "\n", "COL");
             CsvMapper csvMapper = new CsvMapper();
-            MappingIterator<Object> mappingIterator = csvMapper.reader().forType(Object.class).with(csvSchema).readValues(content);
-            List<Object> list = null;
-            list = mappingIterator.readAll();
+            List<Object> list;
+            try (MappingIterator<Object> mappingIterator = csvMapper.reader().forType(Object.class).with(csvSchema).readValues(content)) {
+                list = mappingIterator.readAll();
+            }
             ObjectMapper mapper = new ObjectMapper();
             return mapper.writeValueAsString(list);
         } catch (IOException e) {

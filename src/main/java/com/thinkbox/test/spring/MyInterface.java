@@ -8,14 +8,15 @@ import java.util.Map;
 
 public interface MyInterface extends ApplicationContextAware {
 
-	ApplicationContext context = null;
+//    ApplicationContext context = null;
+//
+//    @Override
+//    default void setApplicationContext(ApplicationContext context) {
+//        this.context = context;
+//    }
 
-	@Override
-	public default void setApplicationContext(ApplicationContext context) {
-		context = context;
-	}
-//    ApplicationContext applicationContext = SpringApplication.run(MyApp.class);
-    static Map<String, MyInterface> myInterfaceMap = new HashMap<>();
+    //    ApplicationContext applicationContext = SpringApplication.run(MyApp.class);
+    Map<String, MyInterface> myInterfaceMap = new HashMap<>();
 
     static void register(String type, MyInterface myInterface) {
         myInterfaceMap.put(type, myInterface);
@@ -25,13 +26,13 @@ public interface MyInterface extends ApplicationContextAware {
         return myInterfaceMap.getOrDefault(type, null);
     }
 
-    default MyFunction getFunction(String function) {
-		if (function != null && function.equalsIgnoreCase("square")) {
-			return (MyFunction)context.getBean("mycomponent-square");
-		}
-		return null;
-//		return null;
-    }
+//    default MyFunction getFunction(String function) {
+//        if (function != null && function.equalsIgnoreCase("square")) {
+//            return (MyFunction) context.getBean("mycomponent-square");
+//        }
+//        return null;
+////		return null;
+//    }
 
     default int myMethod(String function, int input) {
         System.out.println("myMethod");

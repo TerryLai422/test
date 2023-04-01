@@ -17,16 +17,15 @@ public class JsonToCsv {
     public String convert(String content) {
         try {
             ObjectMapper jsonMapper = new ObjectMapper();
-            List<Map> object = null;
-            object = jsonMapper.readValue(content, List.class);
+            List<Map<?,?>> object = jsonMapper.readValue(content, List.class);
             CsvMapper mapper = new CsvMapper();
-            System.out.println(mapper.writer(buildCsvSchema(object, true, ',', "\n")).writeValueAsString(object));
+            return mapper.writer(buildCsvSchema(object, true, ',', "\n")).writeValueAsString(object);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return null;
     }
-    public CsvSchema buildCsvSchema(List<Map> object, boolean hasHeader, char columnSeparator, String lineSeparator) {
+    public CsvSchema buildCsvSchema(List<Map<?,?>> object, boolean hasHeader, char columnSeparator, String lineSeparator) {
         CsvSchema.Builder schemaBuilder = CsvSchema.builder();
         Map<?, ?> first = object.get(0);
         for (Object key : first.keySet()) {

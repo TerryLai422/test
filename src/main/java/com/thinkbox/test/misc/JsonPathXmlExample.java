@@ -9,7 +9,7 @@ public class JsonPathXmlExample {
     public static void main(String[] args) {
         String xml = "<root><person><name>John</name><age>30</age></person></root>";
         JSONObject jsonObject = convertXmlToJson(xml);
-        System.out.println(jsonObject.toString());
+        System.out.println(jsonObject != null?jsonObject.toString():null);
     }
 
     public static JSONObject convertXmlToJson(String xml) {
@@ -20,7 +20,7 @@ public class JsonPathXmlExample {
             return new JSONObject(json);
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }

@@ -2,12 +2,13 @@ package com.thinkbox.test.spring;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-@Component("mycomponent ")
+//@Component("mycomponent ")
 public class MyComponent implements MyInterface {
 
 	@Autowired
@@ -27,5 +28,10 @@ public class MyComponent implements MyInterface {
 	@Bean("mycomponent-square")
 	public MyFunction square() {
 		return (x) -> x * x;
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+
 	}
 }

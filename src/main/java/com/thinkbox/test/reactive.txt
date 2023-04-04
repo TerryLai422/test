@@ -1,0 +1,24 @@
+from("timer:foo?period=1000")
+    .setBody(constant("Hello, world!"))
+    .to("reactive-streams:my-input");
+
+from("reactive-streams:my-input")
+    .process(exchange -> {
+        String message = exchange.getMessage().getBody(String.class);
+        System.out.println("Received message: " + message);
+    })
+    .to("reactive-streams:my-output");
+
+from("direct:my-output")
+    .to("bean:myBean?method=myMethod");
+
+// Use ReactiveStreamsCamelSubscriber to consume messages from the "my-output" stream
+from("bean:myBean?method=myMethod")
+    .to("reactive-streams:my-subscriber")
+    .process(exchange -> {
+        ReactiveStreamsCamelSubscriber<String> subscriber = exchange.getMessage().getBody(ReactiveStreamsCamelSubscriber.class);
+        subscriber.subscribe(data -> {
+            // Process the data as needed
+            System.out.println("Received data: " + data);
+        });
+    });

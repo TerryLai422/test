@@ -1,0 +1,4 @@
+from("direct:input")
+    .setBody(constant("INSERT INTO my_table (column1, column2) VALUES (?, ?)"))
+    .setHeader("parameters", constant(Arrays.asList("value1", "value2")))
+    .to("jdbc:myDataSource?reactive=true");

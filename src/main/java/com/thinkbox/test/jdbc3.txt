@@ -1,0 +1,29 @@
+from("reactive-streams:my-input")
+    .process(exchange -> {
+        // Do some processing on the message
+        exchange.getMessage().setBody("Processed message: " + exchange.getMessage().getBody());
+    })
+    .to("reactive-streams:my-output");
+
+Subscriber<String> subscriber = new Subscriber<>() {
+    public void onSubscribe(Subscription subscription) {
+        subscription.request(1);
+    }
+
+    public void onNext(String message) {
+        System.out.println("Received message: " + message);
+    }
+
+    public void onError(Throwable throwable) {
+        System.out.println("Error occurred: " + throwable.getMessage());
+    }
+
+    public void onComplete() {
+        System.out.println("All messages received");
+    }
+};
+
+ReactiveStreamsCamelSubscriber<String> camelSubscriber = new ReactiveStreamsCamelSubscriber<>(subscriber);
+CamelReactiveStreamsService camelService = context.getReactiveStreamsService();
+Publisher<String> publisher = camelService.fromStream("my-output", String.class);
+publisher.subscribe(camelSubscriber);

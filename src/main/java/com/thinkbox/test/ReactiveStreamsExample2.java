@@ -1,32 +1,27 @@
 package com.thinkbox.test;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
-//import org.apache.camel.component.reactive.streams.api.ExchangeConverter;
-//import org.apache.camel.component.reactive.streams.support.ReactiveStreamsCamelSubscriber;
 import org.apache.camel.component.reactive.streams.ReactiveStreamsCamelSubscriber;
+import org.apache.camel.component.reactive.streams.api.CamelReactiveStreams;
+import org.apache.camel.component.reactive.streams.api.CamelReactiveStreamsService;
 import org.apache.camel.impl.DefaultCamelContext;
-import org.apache.camel.component.reactive.streams.ReactiveStreamsComponent;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.util.concurrent.CountDownLatch;
 
-public class ReactiveStreamsExample {
+public class ReactiveStreamsExample2 {
 
     public static void main(String[] args) throws Exception {
         CamelContext context = new DefaultCamelContext();
-        context.addComponent("reactive-streams", new ReactiveStreamsComponent());
         context.addRoutes(new RouteBuilder() {
             public void configure() {
                 from("timer:tick?period=1000")
                         .setBody().constant("Hello, world!")
-                        .to("reactive-streams:my-input")
-                        .process(exchange -> {
-                            ReactiveStreamsCamelSubscriber subscriber = exchange.getMessage().getBody(ReactiveStreamsCamelSubscriber.class);
-                            subscriber.onNext( exchange);
-                        });
+                        .to("reactive-streams:my-input");
 
                 from("reactive-streams:my-output")
                         .process(exchange -> {
@@ -38,7 +33,7 @@ public class ReactiveStreamsExample {
         });
         context.start();
 
-        Subscriber<String> subscriber = new Subscriber<>() {
+        Subscriber<Exchange> subscriber = new Subscriber<>() {
             private Subscription subscription;
             private int messageCount;
 
@@ -47,7 +42,7 @@ public class ReactiveStreamsExample {
                 subscription.request(1);
             }
 
-            public void onNext(String message) {
+            public void onNext(Exchange message) {
                 System.out.println("Received message: " + message);
                 messageCount++;
                 if (messageCount >= 10) {
@@ -68,8 +63,8 @@ public class ReactiveStreamsExample {
             }
         };
 
-        ReactiveStreamsCamelSubscriber camelSubscriber = new ReactiveStreamsCamelSubscriber("my-stream-subscriber");
-        ReactiveStreamsComponent reactiveStreams = context.getComponent("reactive-streams", ReactiveStreamsComponent.class);
+        ReactiveStreamsCamelSubscriber camelSubscriber = new ReactiveStreamsCamelSubscriber("test");
+        CamelReactiveStreamsService camelService = CamelReactiveStreams.get(context);
         ProducerTemplate producerTemplate = context.createProducerTemplate();
         CountDownLatch latch = new CountDownLatch(1);
 //        ExchangeConverter<String> exchangeConverter = new ExchangeConverter<String>() {
@@ -77,9 +72,9 @@ public class ReactiveStreamsExample {
 //                return exchange.getIn().getBody(String.class);
 //            }
 //        };
-        reactiveStreams.getReactiveStreamsService().fromStream("my-output", String.class).subscribe(subscriber);
-                ;
+//        camelService.toStream("my-input", String.class);
 
         latch.await();
     }
+
 }

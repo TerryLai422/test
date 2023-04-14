@@ -1,0 +1,18 @@
+// Check if the header value is correct and the response body contains a specified value
+pm.test("Header value is correct and response body contains a specified value", function () {
+    var expectedHeader = "Expected-Header-Value";
+    var expectedBody = "Expected-Value";
+    var headerValue = pm.response.headers.get("Header-Name");
+    var responseBody = pm.response.text();
+
+    // Check if the header value and response body are correct
+    pm.expect(headerValue).to.eql(expectedHeader) && pm.expect(responseBody).to.include(expectedBody);
+
+    // Additional logic based on the test results
+    if (headerValue !== expectedHeader) {
+        console.log("Header value is incorrect");
+    }
+    if (!responseBody.includes(expectedBody)) {
+        console.log("Response body does not contain the expected value");
+    }
+});
